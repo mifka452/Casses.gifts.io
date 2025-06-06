@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TON OpenCase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #000, #0a0a0a);
+      font-family: 'Orbitron', sans-serif;
+      color: #ffffff;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+      background: rgba(0, 0, 0, 0.8);
+      border-bottom: 2px solid #00ffe1;
+      box-shadow: 0 2px 10px rgba(0,255,255,0.2);
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+    }
+    .user-info img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 12px;
+      box-shadow: 0 0 10px rgba(0,255,255,0.4);
+    }
+    .wallet-button {
+      background: linear-gradient(90deg, #00ffe1, #0088ff);
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 12px #00ffe1;
+    }
+    .content {
+      padding: 30px 20px 100px;
+      text-align: center;
+    }
+    .balance-box {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid #00ffe1;
+      border-radius: 14px;
+      padding: 18px;
+      font-size: 22px;
+      margin-bottom: 30px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,255,255,0.3);
+    }
+    .case-area {
+      margin-top: 30px;
+      overflow: hidden;
+      position: relative;
+      height: 180px;
+      background: rgba(0,0,0,0.4);
+      border: 2px solid #00ffe1;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.3);
+    }
+    .reel {
+      display: flex;
+      height: 180px;
+      align-items: center;
+      animation: spin 4s ease-out forwards;
+    }
+    .item {
+      width: 160px;
+      height: 140px;
+      background: url('https://i.ibb.co/LCY4Ffm/case-box.png') center/cover;
+      margin: 0 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,255,255,0.2);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 10px;
+      color: #fff;
+      font-size: 14px;
+      background-blend-mode: overlay;
+    }
+    @keyframes spin {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-960px); }
+    }
+    .open-btn {
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(to right, #00ffe1, #00ccff);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffe1;
+    }
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 25px #00ffe1;
+      text-align: center;
+      z-index: 9999;
+      display: none;
+    }
+    .popup h2 {
+      margin-bottom: 15px;
+    }
+    .popup button {
+      margin-top: 15px;
+      background: #00ffe1;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="user-info">
+      <img src="https://via.placeholder.com/40" alt="avatar" id="userAvatar">
+      <span id="userName">Гость</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="balance-box" style="margin: 0; font-size: 16px; padding: 8px 16px;">💰 <span id="balance">0</span> TON</div>
+        <button class="wallet-button" onclick="connectWallet()">🔌 Подключить Tonkeeper</button>
+      </div>
+  </div>
+
+  <div class="content" style="display: flex; flex-direction: column; align-items: center;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+      <div style="background: #111; border-radius: 16px; padding: 10px; width: 160px; box-shadow: 0 0 12px rgba(0,255,255,0.2);">
+        <div style="position: relative; height: 140px; border-radius: 12px; overflow: hidden;">
+          <img src="https://zycrypto.com/wp-content/uploads/2025/05/How-Telegrams-Plush-Pepe-NFTs-Created-a-Digital-Collectible-Community.jpg" style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+        <div style="padding-top: 10px; font-size: 16px; font-weight: bold; text-align: center;">1 TON Case</div>
+        <div style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="background: #0a0a0a; padding: 4px 8px; border-radius: 8px; font-size: 14px;">1.00 TON</span>
+          <button class="open-btn" style="font-size: 12px; padding: 6px 10px;" onclick="startSpin()">Крутить</button>
+        </div>
+      </div>
+      <div style="background: #111; border-radius: 16px; padding: 10px; width: 160px; box-shadow: 0 0 12px rgba(0,255,255,0.2);">
+        <div style="position: relative; height: 140px; border-radius: 12px; overflow: hidden;">
+          <img src="https://i.ibb.co/Gss5mq0/gift4.png" style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
+        <div style="padding-top: 10px; font-size: 16px; font-weight: bold; text-align: center;">Free Case</div>
+        <div style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="background: #0a0a0a; padding: 4px 8px; border-radius: 8px; font-size: 14px;">0.00 TON</span>
+          <button class="open-btn" style="font-size: 12px; padding: 6px 10px;" onclick="startSpin()">Крутить</button>
+        </div>
+      </div>
+    </div>
+    <br />
+
+    <div class="balance-box">💰 Баланс: <span id="balance">0</span> TON</div>
+    <div class="case-area">
+      <div class="reel" id="reel"></div>
+    </div>
+    <button class="open-btn" onclick="startSpin()">Открыть кейс за 3 TON</button>
+  </div>
+
+  <div class="popup" id="popup">
+    <h2>🎉 Вы выиграли:</h2>
+    <p id="popupPrize"></p>
+    <button onclick="closePopup()">Закрыть</button>
+  </div>
+
+  <script src="https://unpkg.com/@tonconnect/sdk@latest"></script>
+  <script>
+    const connector = new TonConnect();
+    const userName = document.getElementById("userName");
+    const userAvatar = document.getElementById("userAvatar");
+    const balanceSpan = document.getElementById("balance");
+    const popup = document.getElementById("popup");
+    const popupPrize = document.getElementById("popupPrize");
+    const reel = document.getElementById("reel");
+
+    const prizes = [
+  { img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhhNLsSQHODscQ6xtTAY6yzm21UsilTH97Kg&s', price: '45.87' },
+  { img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFbcfNNQXWqp6qaWvxwfLJXorgzcR5uhj8HQ&s', price: '45.85' },
+  { img: 'https://nft.fragment.com/gift/bondedring-1904.medium.jpg', price: '20.7' },
+  { img: 'https://i.ibb.co/5RF84PS/gift1.png', price: '7.35' },
+  { img: 'https://i.ibb.co/LPvZrd6/gift2.png', price: '2.3' },
+  { img: 'https://i.ibb.co/Ld2M5Wm/gift3.png', price: '2.2' },
+  { img: 'https://i.ibb.co/Gss5mq0/gift4.png', price: '2.12' }
+];
+
+    async function connectWallet() {
+      try {
+        await connector.restoreConnection();
+        await connector.connect({ universalLink: 'https://app.tonkeeper.com/ton-connect', bridgeUrl: 'https://bridge.tonapi.io/bridge' });
+        const wallet = connector.account;
+        if (wallet) {
+          userName.textContent = wallet.address.slice(0, 6) + '...' + wallet.address.slice(-4);
+          balanceSpan.textContent = '3';
+        }
+      } catch (err) {
+        alert("Ошибка подключения к Tonkeeper");
+      }
+    }
+
+    function startSpin() {
+      const selected = document.querySelector('.modeSelect');
+      const mode = selected ? selected.value : 'demo';
+      if (mode === 'real') {
+        const addr = 'ВАШ_TON_АДРЕС';
+        const amount = 3 * 1e9;
+        window.open(`https://app.tonkeeper.com/transfer/${addr}?amount=${amount}&text=Открытие кейса`, '_blank');
+      }
+
+      reel.innerHTML = '';
+      const extended = [...prizes, ...prizes, ...prizes];
+      for (const prize of extended) {
+  const div = document.createElement("div");
+  div.className = 'item';
+  div.innerHTML = `<img src="${prize.img}" style="width: 100px; height: 100px; object-fit: contain;"><div style='margin-top: 5px;'>💎 ${prize.price}</div>`;
+  reel.appendChild(div);
+}
+      reel.style.animation = 'none';
+      void reel.offsetWidth;
+      reel.style.animation = 'spin 4s ease-out';
+
+      setTimeout(() => {
+        const result = prizes[Math.floor(Math.random() * prizes.length)];
+        popupPrize.innerHTML = `<img src="${result.img}" style="width: 100px; height: 100px; object-fit: contain;"><div style='margin-top: 10px;'>💎 ${result.price}</div>`;
+        popupPrize.textContent = result;
+        popup.style.display = 'block';
+      }, 4000);
+    }
+
+    function closePopup() {
+      popup.style.display = 'none';
+    }
+  </script>
+<footer style="position: fixed; bottom: 0; left: 0; width: 100%; background: #0d0d0d; border-top: 1px solid #00ffe1; display: flex; justify-content: space-around; align-items: center; padding: 8px 0; box-shadow: 0 -2px 12px rgba(0,255,255,0.1); z-index: 1000;">
+  <div class="nav-item" onclick="selectTab(this)">
+    <div style="font-size: 18px;">🏠</div>
+    <div style="font-size: 12px;">Main</div>
+  </div>
+  <div class="nav-item" onclick="selectTab(this)">
+    <div style="font-size: 18px;">⚡</div>
+    <div style="font-size: 12px;">Weekly</div>
+  </div>
+  <div class="nav-item" onclick="selectTab(this)">
+    <div style="font-size: 18px;">🎰</div>
+    <div style="font-size: 12px;">Jackpot</div>
+  </div>
+  <div class="nav-item" onclick="selectTab(this)">
+    <div style="font-size: 18px;">🚀</div>
+    <div style="font-size: 12px;">Upgrade</div>
+  </div>
+  <div class="nav-item" onclick="selectTab(this)">
+    <div style="font-size: 18px;">👤</div>
+    <div style="font-size: 12px;">Profile</div>
+  </div>
+</footer>
+<script>
+  const demoToggle = document.createElement('div');
+  const cases = document.querySelectorAll('.open-btn');
+cases.forEach(btn => {
+  const selectWrap = document.createElement('div');
+  selectWrap.innerHTML = `
+    <label style="font-size: 12px; margin-top: 8px; display: block;">Режим:
+      <select class="modeSelect" style="padding: 4px 8px; border-radius: 6px; font-size: 12px; margin-left: 6px;">
+        <option value="demo">Demo</option>
+        <option value="real">Real</option>
+      </select>
+    </label>`;
+  btn.parentElement.parentElement.appendChild(selectWrap);
+});
+
+  function selectTab(el) {
+    document.querySelectorAll('.nav-item').forEach(i => i.style.color = '#888');
+    el.style.color = '#fff';
+    alert('Раздел: ' + el.innerText.trim());
+  }
+</script>
+</body>
+</html>
